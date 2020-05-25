@@ -3,17 +3,18 @@
 // Semester 2, 2019/2020
 // Exercise 3: HTTP and JSON
 //
-// Name 1:  ......
-// Name 2:  ......
+// Name 1:  KEVIN
+// Name 2:  HAFIZI
 //-----------------------------------------------------------
 import 'dart:convert';
-import 'package:rest_client/rest_client.http' as http;
+//import 'package:rest_client/rest_client.http' as http;
+import 'package:http/http.dart' as http;
 import '../models/todo.dart';
 
 
 class DataService {
   static const String baseUrl =
-      'http://192.168.0.3:3000'; // Change the IP address to your PC's IP. Remain the port number 3000 unchanged.
+      'http://192.168.0.139:3000'; // Change the IP address to your PC's IP. Remain the port number 3000 unchanged.
 
   // TODO 1: Complete this method. It is an helper for the HTTP GET request
   Future get(String endpoint) async {
@@ -69,6 +70,7 @@ class DataService {
       json['title'][i]['id'] = await get('todos/$todoId');
 
     }
+    //return Todo.fromJson(json);
   }
 
   // TODO 6: Complete this method. It is meant for updating the status of a given TODO  (whether is completed or not) in the server
