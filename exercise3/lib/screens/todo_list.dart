@@ -3,8 +3,8 @@
 // Semester 2, 2019/2020
 // Exercise 3: HTTP and JSON
 //
-// Name 1:  ......
-// Name 2:  ......
+// Name 1:  KEVIN
+// Name 2:  HAFIZI
 //-----------------------------------------------------------
 
 // TODO 1 - Toggle the status of the todo  when the user is pressing on the ListTile. This operation also updates the data on the server
@@ -14,29 +14,53 @@
 import 'package:flutter/material.dart';
 
 import '../models/todo.dart';
-import '../models/data.dart' as data;
 import '../services/data_service.dart';
 
 
 class TodoListScreen extends StatefulWidget {
-  @override
+   @override
   _TodoListScreenState createState() => _TodoListScreenState();
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
+Future<Map<String,dynamic>> _futureData;
+
+List<Todo> todo;
+
+@override
+void initState(){
+  super.initState();
+  //_futureData = dataService.getTodoList(1);
+}
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    return FutureBuilder<Map<String,dynamic>>(
+    future: _futureData,
+    builder: (context,snapshot){
+      if(snapshot.hasData){
+        todo = snapshot.data['todo'];
+
+        return _buildMainScreen();
+      }
+      return _buildFetchingDataScreen();
+    });
+
+  }
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Todo List'),
       ),
       body: ListView.separated(
-        itemCount: data.globalTodoList.length,
+        itemCount: todo.length,
         separatorBuilder: (context, index) => Divider(
           color: Colors.blueGrey,
         ),
         itemBuilder: (context, index) {
-          final Todo _todo = data.globalTodoList[index];
+          final Todo _todo = todo[index];
           return ListTile(
             title: Text(_todo.title,
                 style: TextStyle(
@@ -49,18 +73,33 @@ class _TodoListScreenState extends State<TodoListScreen> {
             },
             onLongPress: () {
               dataService.deleteTodo();
-            dataService.delete();
-            },
+                          },
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          dataService.post();
           dataService.createTodo();
         },
       ),
     );
   }
-}
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching data in progress'),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+}//class _TodoListScreenState
