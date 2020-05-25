@@ -3,29 +3,38 @@
 ### Semester 2, 2019/2020
 ### Exercise 3: HTTP and JSON
 ###
-### Name 1:  ......
-### Name 2:  ......
+### Name 1:  KEVIN
+### Name 2:  HAFIZI
 ##############################################################
 
 ### Change the IP address below to your PC's IP address. Remain the port number 3000 unchanged
-@baseUrl = http://192.168.0.3:3000
+@baseUrl = http://192.168.0.139:3000
 
 ### Example HTTP Request: Creating a new todo
 
 ### TODO 1 : Define the HTTP Request to get the list of todos
-GET {{baseUrl}}/todo/1 HTTP/1.1
+GET {{baseUrl}}/todos HTTP/1.1
 Content-Type: application/json
 
 ### TODO 2 : Define the HTTP Request to update the status of a given todo (whether is completed or not)
-PATCH   {{baseUrl}}/todo HTTP/1.1
-Content-Type: application/json
-### TODO 3 : Define the HTTP Request to create a new todo
-POST  {{baseUrl}}/todo HTTP/1.1
-Content-Type: application/json
-### TODO 4 : Define the HTTP Request to delete a given todo
-DELETE  {{baseUrl}}/todo HTTP/1.1
+PATCH   {{baseUrl}}/todos/2 HTTP/1.1
 Content-Type: application/json
 
-PUT    {{baseUrl}}/todo HTTP/1.1
+{
+    "title":"Replace waterpipe"
+}
+
+### TODO 3 : Define the HTTP Request to create a new todo
+POST  {{baseUrl}}/todos HTTP/1.1
+Content-Type: application/json
+
+{
+    "title" : "New task",
+    "id" : "6",
+    "completed": true
+}
+
+### TODO 4 : Define the HTTP Request to delete a given todo
+DELETE  {{baseUrl}}/todos/6 HTTP/1.1
 Content-Type: application/json
 
