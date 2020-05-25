@@ -69,9 +69,11 @@ void initState(){
                         : TextDecoration.none)),
             subtitle: Text('id: ${_todo.id}'),
             onTap: () {
+               //                TODO 1             //
               dataService.updateTodoStatus();
             },
             onLongPress: () {
+               //                TODO 2             //
               dataService.deleteTodo();
                           },
           );
@@ -80,6 +82,7 @@ void initState(){
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
+           //                TODO 3             //
           dataService.createTodo();
         },
       ),
