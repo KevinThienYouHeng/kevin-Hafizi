@@ -70,11 +70,12 @@ void initState(){
             subtitle: Text('id: ${_todo.id}'),
             onTap: () {
                //                TODO 1             //
-              dataService.updateTodoStatus();
+              dataService.updateTodoStatus(
+              id: status.id, completed: status.completed );
             },
             onLongPress: () {
                //                TODO 2             //
-              dataService.deleteTodo();
+              dataService.deleteTodo(id; Todo.id);
                           },
           );
         },
@@ -83,7 +84,8 @@ void initState(){
         child: Icon(Icons.add),
         onPressed: () {
            //                TODO 3             //
-          dataService.createTodo();
+          dataService.createTodo(
+          id: Todo.id, status: Todo.status );
         },
       ),
     );
