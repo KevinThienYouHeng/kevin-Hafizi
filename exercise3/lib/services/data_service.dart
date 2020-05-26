@@ -97,7 +97,7 @@ class DataService {
   Future<Todo> createTodo({Todo todo}) async {
      final json = await post('todos/$todo');
     json['title'] = await post(
-        Todo, todo.toMap()
+        Todo, todo.toJson()
     ); 
 
     return Todo.fromJson(json);
