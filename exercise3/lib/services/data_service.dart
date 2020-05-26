@@ -62,22 +62,33 @@ class DataService {
 
   // TODO 5: Complete this method. It is meant for getting the list of TODO s from the server
   Future<List<Todo>> getTodoList() async {
-    final json = await get('todos/');
-    json['title'] = await get('todos/${json['id']}');
+   List<Todo> todoList = [];
 
-    for (int i = 0; i < json['title'].length; i++) {
-      final todoId = json['title'][i]['id'];
-      json['title'][i]['id'] = await get('todos/$todoId');
+    Response response = await TodoUtils.getTodoList();
+    print("Title is ${response.statusCode}");
+    print("Description is ${response.body}");
 
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+      var results = body["results"];
+
+      for (var todo in results) {
+        todoList.add(Todo.fromJson(todo));
+      }
+
+    } else {
+      //Handle error
     }
-    //return Todo.fromJson(json);
+
+    return todoList;
   }
+  
 
   // TODO 6: Complete this method. It is meant for updating the status of a given TODO  (whether is completed or not) in the server
   Future<Todo> updateTodoStatus({int id, bool status}) async {
     final json = await patch('todo/$id/$status');
-    json['title'] = await get(
-        'todos/${json['id']}'); // Resolve memberId to its details
+    json['title'] = await patch(
+        Todo,where "id=?", where status "status=?", whereArgs: [todo.id] ); 
 
     return Todo.fromJson(json);
   }
@@ -85,8 +96,9 @@ class DataService {
   // TODO 7: Complete this method. It is meant for creating a new TODO  in the server
   Future<Todo> createTodo({Todo todo}) async {
      final json = await post('todos/$todo');
-    json['title'] = await get(
-        'todos/${json['id']}'); // Resolve memberId to its details
+    json['title'] = await post(
+        Todo, todo.toMap()
+    ); 
 
     return Todo.fromJson(json);
   }
