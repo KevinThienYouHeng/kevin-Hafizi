@@ -94,8 +94,9 @@ class DataService {
   // TODO 8: Complete this method. It is meant for deleting a given TODO  from the server
   Future<Todo> deleteTodo({int id}) async {
     final json = await delete('todos/$id');
-    json['title'] = await get(
-        'todos/${json['id']}'); // Resolve memberId to its details
+    json['title'] = await delete(
+        Todo, where: 'id=?', whereArgs:[id]
+    ); 
 
     return Todo.fromJson(json);
   }
